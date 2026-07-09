@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 80;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // JSON Database Setup
@@ -23,6 +23,7 @@ if (!fs.existsSync(dbFile)) {
 function readDB() {
     const raw = JSON.parse(fs.readFileSync(dbFile, 'utf8'));
     if (!raw.calendar) raw.calendar = {};
+    if (!raw.moodboard) raw.moodboard = [];
     
     // Migrate old objects to arrays
     for (let date in raw.calendar) {
@@ -190,6 +191,33 @@ app.delete('/api/notes/:id', (req, res) => {
     const { id } = req.params;
     const db = readDB();
     db.notes = (db.notes || []).filter(n => String(n.id) !== String(id));
+    writeDB(db);
+    res.json({ success: true });
+});
+
+// ---- Moodboard API ----
+app.get('/api/moodboard', (req, res) => {
+    const db = readDB();
+    res.json(db.moodboard || []);
+});
+
+app.post('/api/moodboard', (req, res) => {
+    const { id, imageBase64 } = req.body;
+    if (!imageBase64) return res.status(400).json({ error: 'Image is required' });
+
+    const db = readDB();
+    if (!db.moodboard) db.moodboard = [];
+    const newImage = { id: id || Date.now(), imageBase64, timestamp: Date.now() };
+    db.moodboard.unshift(newImage); // Add to the top
+    writeDB(db);
+    res.json(newImage);
+});
+
+app.delete('/api/moodboard/:id', (req, res) => {
+    const { id } = req.params;
+    const db = readDB();
+    if (!db.moodboard) db.moodboard = [];
+    db.moodboard = db.moodboard.filter(img => String(img.id) !== String(id));
     writeDB(db);
     res.json({ success: true });
 });

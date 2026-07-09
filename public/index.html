@@ -11,7 +11,7 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Clock Custom CSS -->
-    <link rel="stylesheet" href="clock.css">
+    <link rel="stylesheet" href="clock.css?v=2">
 </head>
 <body>
     <!-- Animated Cute Background Elements -->
@@ -20,11 +20,21 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
-    
     <a href="planner.html" class="back-btn"><i class="fa-solid fa-calendar-days"></i> Planlayıcı</a>
 
+    <!-- Moodboard Container -->
+    <aside class="moodboard-container" id="moodboard">
+        <div class="moodboard-empty" id="moodboard-empty">
+            <i class="fa-solid fa-thumbtack"></i>
+            <p>Panona asmak istediğin görselleri buraya sürükle veya yapıştır (Ctrl+V) ✨</p>
+        </div>
+        <div class="moodboard-grid" id="moodboard-grid"></div>
+    </aside>
+
+    <!-- Draggable Ladybug -->
+    <div id="ladybug" class="draggable-ladybug" title="Beni yukarı aşağı sürükleyebilirsin!">🐞</div>
+
     <div class="clock-container glass-panel">
-        <div class="user-greeting">Zeynep ERDEM</div>
         <div class="time" id="timeDisplay">00:00</div>
         <div class="date" id="dateDisplay">-- -- --</div>
         
@@ -32,8 +42,10 @@
             <i class="fa-solid fa-quote-left quote-icon"></i>
             <textarea id="quoteInput" placeholder="Buraya tatlı, motive edici bir söz yazabilirsin... ✨" spellcheck="false"></textarea>
         </div>
+
+        <div class="user-greeting">Zeynep ERDEM</div>
     </div>
 
-    <script src="clock.js"></script>
+    <script src="clock.js?v=2"></script>
 </body>
 </html>
