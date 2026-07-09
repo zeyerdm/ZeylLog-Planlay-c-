@@ -3,236 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hook Planla | Zeynep.log</title>
+    <title>Estetik Saat | Zeynep.log</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=2">
+    <!-- Clock Custom CSS -->
+    <link rel="stylesheet" href="clock.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar glass-panel">
-            <div class="logo">
-                <i class="fa-solid fa-code"></i>
-                <h2>zeyllog</h2>
-            </div>
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active" data-tab="calendar"><i class="fa-solid fa-calendar-days"></i> Takvim</a>
-                <a href="#" class="nav-item" data-tab="ideas"><i class="fa-solid fa-lightbulb"></i> Fikir Havuzu</a>
-                <a href="#" class="nav-item" data-tab="notes"><i class="fa-solid fa-note-sticky"></i> Notlar</a>
-                <a href="#" class="nav-item" data-tab="stats"><i class="fa-solid fa-chart-line"></i> İstatistikler (Yakında)</a>
-            </nav>
-            <div class="goal-widget" id="goal-widget">
-                <div class="goal-top">
-                    <span class="goal-label">🎯 Hedef</span>
-                    <button class="goal-edit-btn" id="goal-edit-btn" title="Hedefi düzenle"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="goal-numbers" id="goal-display">
-                    <span class="goal-current" id="goal-current-display">0</span>
-                    <span class="goal-sep">/</span>
-                    <span class="goal-target" id="goal-target-display">10.000</span>
-                </div>
-                <div class="goal-bar-bg">
-                    <div class="goal-bar-fill" id="goal-bar-fill"></div>
-                </div>
-                <p class="goal-sub" id="goal-sub-text">Takipçi</p>
-                <div class="goal-edit-form" id="goal-edit-form" style="display:none;">
-                    <input type="number" id="goal-current-input" placeholder="Şu an kaç takipçin var?" />
-                    <input type="number" id="goal-target-input" placeholder="Hedefiniz (örn: 10000)" />
-                    <button class="btn btn-accent btn-sm" id="goal-save-btn"><i class="fa-solid fa-check"></i> Kaydet</button>
-                </div>
-            </div>
-        </aside>
+    <!-- Animated Cute Background Elements -->
+    <div class="animated-bg"></div>
+    <div class="stars"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    
+    <a href="planner.html" class="back-btn"><i class="fa-solid fa-calendar-days"></i> Planlayıcı</a>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-header glass-panel">
-                <div class="header-titles">
-                    <h1 id="page-title">İçerik Takvimi</h1>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-primary" id="btnExport"><i class="fa-solid fa-download"></i> Dışa Aktar</button>
-                </div>
-            </header>
-
-            <!-- CALENDAR TAB -->
-            <div id="tab-calendar" class="tab-content active">
-                <div class="calendar-layout">
-                    <!-- Left: Calendar -->
-                    <section class="calendar-section glass-panel">
-                        <div class="cal-header">
-                            <button class="cal-nav" id="prevMonth"><i class="fa-solid fa-chevron-left"></i></button>
-                            <h3 id="cal-month-label">Temmuz 2026</h3>
-                            <button class="cal-nav" id="nextMonth"><i class="fa-solid fa-chevron-right"></i></button>
-                        </div>
-                        <div class="cal-grid-header">
-                            <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
-                        </div>
-                        <div class="cal-grid" id="cal-grid">
-                            <!-- Days injected by JS -->
-                        </div>
-                    </section>
-
-                    <!-- Right: Day Detail -->
-                    <section class="day-detail glass-panel" id="day-detail">
-                        <div class="day-detail-empty" id="day-detail-empty">
-                            <i class="fa-regular fa-calendar-plus"></i>
-                            <p>Bir güne tıkla, o günün içeriğini planla</p>
-                        </div>
-                        
-                        <!-- List View -->
-                        <div class="day-detail-list" id="day-detail-list" style="display:none; flex-direction:column; padding:20px; flex-grow:1; overflow-y:auto; min-height:0;">
-                            <div class="day-detail-header" style="margin-bottom:15px;">
-                                <h3 id="list-date-label">Tarih</h3>
-                                <span class="day-badge" id="list-day-badge">Gün</span>
-                            </div>
-                            <div id="entries-list-container" style="display:flex; flex-direction:column; gap:10px;"></div>
-                            <button class="btn btn-accent" id="btn-add-new-entry" style="margin-top:15px;"><i class="fa-solid fa-plus"></i> Yeni İçerik Ekle</button>
-                        </div>
-
-                        <!-- Form View -->
-                        <div class="day-detail-form" id="day-detail-form" style="display:none;">
-                            <div class="day-detail-header">
-                                <h3 id="form-mode-label">Yeni İçerik Ekle</h3>
-                                <button class="btn" id="btn-cancel-entry" style="background:rgba(255,255,255,0.05); color:var(--text-secondary); padding:5px 10px;"><i class="fa-solid fa-arrow-left"></i> Geri</button>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-bolt"></i> İçerik Hook (Kanca)</label>
-                                <input type="text" id="detail-hook" placeholder="Örn: Vibe coding ile portfolyo sitem bitti ve..." />
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-tag"></i> Kategori</label>
-                                <select id="detail-category">
-                                    <option value="Vibe Coding">🖥️ Vibe Coding</option>
-                                    <option value="Köyde Staj">🌲 Köyde Staj</option>
-                                    <option value="Haftalık Vlog">🎬 Haftalık Vlog</option>
-                                    <option value="Kısa Hook">⚡ Kısa Hook</option>
-                                    <option value="Soru-Cevap">💬 Soru-Cevap</option>
-                                    <option value="Motivasyon">✨ Motivasyon</option>
-                                    <option value="Diğer">📌 Diğer</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-solid fa-align-left"></i> Açıklama / Not</label>
-                                <textarea id="detail-caption" rows="3" placeholder="Videoda ne anlatmak istiyorsun?"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label><i class="fa-regular fa-circle-check"></i> Durum</label>
-                                <div class="status-toggle">
-                                    <button class="status-btn active" data-status="planned" id="status-planned">📅 Planlandı</button>
-                                    <button class="status-btn" data-status="filmed" id="status-filmed">🎥 Çekildi</button>
-                                    <button class="status-btn" data-status="published" id="status-published">✅ Paylaşıldı</button>
-                                </div>
-                            </div>
-                            <div class="form-group" style="flex-direction:row; align-items:center; justify-content:space-between; margin-top:5px; background:rgba(123,97,255,0.08); padding:10px 12px; border-radius:10px; border:1px solid rgba(123,97,255,0.2);">
-                                <label style="margin:0; font-size:0.85rem; color:var(--text-primary); cursor:pointer;">
-                                    <input type="checkbox" id="detail-notify" style="margin-right:6px; cursor:pointer; accent-color:var(--accent-color);">
-                                    <i class="fa-regular fa-bell" style="color:var(--accent-color);"></i> Hatırlatıcı
-                                </label>
-                                <div style="display:flex; gap:6px;">
-                                    <input type="time" id="detail-time" style="display:none; padding:4px 8px; font-size:0.85rem; width:auto;" />
-                                    <button type="button" id="btn-test-notify" style="display:none; padding:4px 8px; font-size:0.75rem; border:none; border-radius:6px; background:var(--accent-color); color:white; cursor:pointer;">Test</button>
-                                </div>
-                            </div>
-                            <div class="form-actions">
-                                <button class="btn btn-accent" id="btn-save-entry"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-                                <button class="btn btn-danger" id="btn-delete-entry" style="display:none;"><i class="fa-solid fa-trash"></i> Sil</button>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <!-- IDEAS TAB -->
-            <div id="tab-ideas" class="tab-content" style="display:none;">
-                <div class="ideas-page glass-panel">
-                    <div class="section-header">
-                        <h3><i class="fa-regular fa-lightbulb"></i> İlham & Fikir Havuzu</h3>
-                        <div class="ideas-filters" id="ideas-filters" style="display:flex; gap:6px; margin-top:12px;">
-                            <button class="notes-cat-btn active" data-filter="all">Hepsi</button>
-                            <button class="notes-cat-btn" data-filter="yapilacak">📋 Yapılacak</button>
-                            <button class="notes-cat-btn" data-filter="acil">🔥 Acil</button>
-                            <button class="notes-cat-btn" data-filter="yapildi">✅ Yapıldı</button>
-                        </div>
-                    </div>
-                    <form id="idea-form" class="idea-form">
-                        <textarea id="idea-input" placeholder="Aklına gelen o harika reels kancasını buraya yaz..." required rows="3"></textarea>
-                        <div class="idea-form-bottom">
-                            <select id="idea-status-input" class="idea-status-select">
-                                <option value="yapilacak">📋 Yapılacak</option>
-                                <option value="acil">🔥 Acil</option>
-                                <option value="yapildi">✅ Yapıldı</option>
-                            </select>
-                            <button type="submit" class="btn btn-accent"><i class="fa-solid fa-plus"></i> Ekle</button>
-                        </div>
-                    </form>
-                    <div class="ideas-list" id="ideas-list"></div>
-                </div>
-            </div>
-
-            <!-- NOTES TAB -->
-            <div id="tab-notes" class="tab-content" style="display:none;">
-                <div class="notes-layout">
-                    <!-- Notes List -->
-                    <aside class="notes-list-panel glass-panel">
-                        <div class="notes-list-header">
-                            <h3><i class="fa-solid fa-note-sticky"></i> Notlarım</h3>
-                            <button class="btn btn-accent btn-sm" id="btn-new-note"><i class="fa-solid fa-plus"></i> Yeni</button>
-                        </div>
-                        <!-- Search -->
-                        <div class="notes-search-wrapper">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" id="notes-search-input" placeholder="Not ara..." />
-                        </div>
-                        <!-- Category filters -->
-                        <div class="notes-category-filters" id="notes-category-filters">
-                            <button class="notes-cat-btn active" data-cat="all">Hepsi</button>
-                            <!-- dynamic categories injected by JS -->
-                            <button class="notes-cat-btn add-cat-btn" id="btn-add-category" title="Yeni kategori ekle"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <!-- New category input (hidden by default) -->
-                        <div class="new-cat-form" id="new-cat-form" style="display:none;">
-                            <input type="text" id="new-cat-input" placeholder="Kategori adı..." maxlength="24" />
-                            <button class="btn btn-accent btn-sm" id="btn-save-category"><i class="fa-solid fa-check"></i></button>
-                        </div>
-                        <div class="notes-list" id="notes-list"></div>
-                    </aside>
-                    <!-- Note Editor -->
-                    <section class="note-editor glass-panel" id="note-editor">
-                        <div class="note-editor-empty" id="note-editor-empty">
-                            <i class="fa-regular fa-note-sticky"></i>
-                            <p>Bir not seç veya yeni not oluştur</p>
-                        </div>
-                        <div class="note-editor-form" id="note-editor-form" style="display:none;">
-                            <div class="note-editor-top-row">
-                                <input type="text" id="note-title-input" class="note-title-input" placeholder="Not başlığı..." />
-                                <select id="note-category-input" class="note-category-select">
-                                    <option value="Genel">📌 Genel</option>
-                                    <option value="Reels Scripti">🎬 Reels Scripti</option>
-                                    <option value="Staj Notu">💻 Staj Notu</option>
-                                    <option value="Günlük">📸 Günlük</option>
-                                    <option value="Hedefler">🎯 Hedefler</option>
-                                </select>
-                            </div>
-                            <textarea id="note-content-input" class="note-content-input" placeholder="Notunu buraya yaz... Herhangi bir şey olabilir: Reels scripti, staj notu, günlük düşünceler, hedefler..."></textarea>
-                            <div class="note-editor-actions">
-                                <button class="btn btn-accent" id="btn-save-note"><i class="fa-solid fa-floppy-disk"></i> Kaydet</button>
-                                <button class="btn btn-danger" id="btn-delete-note"><i class="fa-solid fa-trash"></i> Sil</button>
-                                <span class="note-saved-badge" id="note-saved-badge"></span>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-        </main>
+    <div class="clock-container glass-panel">
+        <div class="user-greeting">Zeynep ERDEM</div>
+        <div class="time" id="timeDisplay">00:00</div>
+        <div class="date" id="dateDisplay">-- -- --</div>
+        
+        <div class="quote-wrapper">
+            <i class="fa-solid fa-quote-left quote-icon"></i>
+            <textarea id="quoteInput" placeholder="Buraya tatlı, motive edici bir söz yazabilirsin... ✨" spellcheck="false"></textarea>
+        </div>
     </div>
 
-    <!-- Modal overlay -->
-    <div id="modal-overlay" class="modal-overlay" style="display:none;"></div>
-
-    <script src="app.js?v=2"></script>
+    <script src="clock.js"></script>
 </body>
 </html>

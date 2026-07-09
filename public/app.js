@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = '/api';
-
-    // ===== GOAL WIDGET =====
+    const API_URL = '/planlayici/api';    // ===== GOAL WIDGET =====
     let goalData = JSON.parse(localStorage.getItem('zeyllogGoal')) || { current: 0, target: 10000 };
     const goalCurrentDisplay = document.getElementById('goal-current-display');
     const goalTargetDisplay = document.getElementById('goal-target-display');
@@ -53,8 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageTitle = document.getElementById('page-title');
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', (e) => {
-            e.preventDefault();
             const tab = item.getAttribute('data-tab');
+            if (!tab) return; // Allow normal navigation (e.g. clock.html)
+            
+            e.preventDefault();
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             item.classList.add('active');
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
